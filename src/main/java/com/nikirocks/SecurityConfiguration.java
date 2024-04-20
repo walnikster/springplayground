@@ -33,9 +33,9 @@ public class SecurityConfiguration {
         http.csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/css/**", "/css/").permitAll()
+                        .requestMatchers("/*/css/**", "/*/js/**").permitAll()
+                        .requestMatchers("/webjars/**", "/webjars/").permitAll()
                         .requestMatchers("favicon.ico").permitAll()
-
                         .requestMatchers("/monitoring").hasRole("admins")
                         .requestMatchers("/secured").authenticated()
                         .anyRequest()

@@ -5,7 +5,7 @@ spring:
     resources:
       cache:
         cachecontrol:
-          max-age: 1h
+          max-age: 8h
       chain:
         enabled: true
         strategy:
