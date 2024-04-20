@@ -23,9 +23,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-                <a class="nav-link" href="/secured">Secured</a>
-                <a class="nav-link" href="/monitoring">Monitoring</a>
+                <a class="nav-link" th:classAppend="${@menu.isHome()?'active':''}" href="/">Home</a>
+                <a class="nav-link" th:classAppend="${@menu.isSecured?'active':''}" href="/secured">Secured</a>
+                <a class="nav-link" th:classAppend="${@menu.isMonitoring?'active':''}" href="/monitoring">Monitoring</a>
             </div>
         </div>
     </div>
