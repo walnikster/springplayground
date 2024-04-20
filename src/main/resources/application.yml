@@ -1,0 +1,33 @@
+spring:
+  config:
+    import: env.yml
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 1h
+      chain:
+        enabled: true
+        strategy:
+          fixed:
+            version: @version@
+            paths: /**
+            enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          cognito:
+            client-id: ${client-id}
+            client-secret: ${client-secret}
+            scope: openid,email,profile
+        provider:
+          cognito:
+            issuer-uri: ${issuer-url}
+
+aws:
+  cognito:
+    logoutUrl: ${logoutUrl}
+    logout:
+      success:
+        redirectUrl: ${logout-redirect-url}
