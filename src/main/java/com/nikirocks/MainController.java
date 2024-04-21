@@ -23,7 +23,6 @@ public class MainController {
     @RequestMapping("/secured")
     public String secured(Model model) {
         menu.setSecured(true);
-        model.addAttribute("secured", true);
         return "index";
     }
 
