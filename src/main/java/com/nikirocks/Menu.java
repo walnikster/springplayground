@@ -1,10 +1,12 @@
 package com.nikirocks;
 
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.Serializable;
 
+@Getter
 @Component
 @SessionScope
 public class Menu implements Serializable {
@@ -29,15 +31,5 @@ public class Menu implements Serializable {
         this.secured = !monitoring;
         this.monitoring = monitoring;
     }
-    public boolean isHome() {
-        return home;
-    }
 
-    public boolean isSecured() {
-        return secured;
-    }
-
-    public boolean isMonitoring() {
-        return monitoring;
-    }
 }

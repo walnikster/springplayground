@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
@@ -15,8 +16,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
-
 
     @Value("${aws.cognito.logoutUrl}")
     private String logoutUrl;
@@ -28,21 +29,21 @@ public class SecurityConfiguration {
     private String clientId;
 
     @Value("${spring.web.resources.chain.strategy.fixed.version}")
-    private String versionForStaticResources;
+    private String versionUrlPartForStaticResources;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/"+versionForStaticResources+"/css/**", "/"+versionForStaticResources+"/js/**").permitAll()
-                        .requestMatchers("/webjars/**", "/webjars/").permitAll()
+                        .requestMatchers("/"+versionUrlPartForStaticResources+"/css/**", "/"+versionUrlPartForStaticResources+"/js/**").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
                         .requestMatchers("favicon.ico").permitAll()
                         .requestMatchers("/monitoring").hasRole("admins")
                         .requestMatchers("/secured").authenticated()
                         .anyRequest()
                         .authenticated())
-                .oauth2Login((oathlogin) -> oathlogin.userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userAuthoritiesMapper(userAuthoritiesMapper())))
+                .oauth2Login((oath2Login) -> oath2Login.userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userAuthoritiesMapper(userAuthoritiesMapper())))
                 .logout(x -> x.logoutSuccessHandler(
                         new CustomLogoutHandler(logoutUrl, logoutRedirectUrl, clientId)));
         return http.build();

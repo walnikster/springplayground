@@ -3,15 +3,16 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>Demo</title>
-    <meta name="description" content=""/>
+    <title>Spring Boot Application - Samples</title>
+    <meta name="description" content="Sample Spring Boot Application"/>
     <meta name="viewport" content="width=device-width"/>
 
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/app.js}"></script>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-light">
@@ -31,7 +32,7 @@
     </div>
 </nav>
 <main>
-    <h1>Demo</h1>
+    <h1>Samples</h1>
     <div class="container">
         <div sec:authorize="isAuthenticated()">
             <form method="post" th:action="@{/logout}">
@@ -39,12 +40,12 @@
             </form>
             <p>Logged user: <span sec:authentication="name">Bob</span></p>
             <div>Roles:</div>
-            <div th:if="${secured}" th:each="role: ${#authentication.authorities}">
-                <p th:text="${role}"/>
+            <div th:each="role: ${#authentication.authorities}">
+                <div th:text="${role}"></div>
             </div>
         </div>
         <div sec:authorize="!isAuthenticated()">
-            <p>not logged in</p>
+            <div>not logged in</div>
         </div>
     </div>
 </main>
