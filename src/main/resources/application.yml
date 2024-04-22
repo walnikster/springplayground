@@ -9,10 +9,13 @@ spring:
       chain:
         enabled: true
         strategy:
-          fixed:
-            version: @version@
-            paths: /**
+          content:
             enabled: true
+            paths: /**
+          #fixed:
+          #  version: @version@
+          #  paths: /**
+          #  enabled: true
   security:
     oauth2:
       client:

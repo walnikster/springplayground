@@ -28,17 +28,15 @@ public class SecurityConfiguration {
     @Value("${spring.security.oauth2.client.registration.cognito.client-id}")
     private String clientId;
 
-    @Value("${spring.web.resources.chain.strategy.fixed.version}")
-    private String versionUrlPartForStaticResources;
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/"+versionUrlPartForStaticResources+"/css/**", "/"+versionUrlPartForStaticResources+"/js/**").permitAll()
                         .requestMatchers("/webjars/**").permitAll()
-                        .requestMatchers("favicon.ico").permitAll()
+                        .requestMatchers("/css/**").permitAll()
+                        .requestMatchers("/js/**").permitAll()
+                        .requestMatchers("/images/**").permitAll()
                         .requestMatchers("/monitoring").hasRole("admins")
                         .requestMatchers("/secured").authenticated()
                         .anyRequest()
