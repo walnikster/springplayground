@@ -12,13 +12,11 @@ public class MainController {
     @Autowired
     private Menu menu;
 
-
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {
         menu.setHome(true);
         return "index";
     }
-
 
     @RequestMapping(value = "/secured", method = RequestMethod.GET)
     public String secured(Model model) {

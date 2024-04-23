@@ -12,10 +12,6 @@ spring:
           content:
             enabled: true
             paths: /**
-          #fixed:
-          #  version: @version@
-          #  paths: /**
-          #  enabled: true
   security:
     oauth2:
       client:
@@ -24,10 +20,10 @@ spring:
             client-id: ${client-id}
             client-secret: ${client-secret}
             scope: openid,email,profile
+
         provider:
           cognito:
             issuer-uri: ${issuer-url}
-
 aws:
   cognito:
     logoutUrl: ${logoutUrl}

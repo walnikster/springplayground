@@ -10,6 +10,8 @@
     <meta name="description" content="Sample Spring Boot Application"/>
     <meta name="viewport" content="width=device-width"/>
 
+    <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"></link>
+
     <link rel="stylesheet" th:href="@{/css/style.css}"></link>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"></link>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.min.css}"></link>
@@ -17,8 +19,6 @@
     <script th:src="@{/js/app.js}"></script>
     <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-
-    <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"></link>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-light">
@@ -45,6 +45,7 @@
                 <input type="submit" class="btn btn-danger" value="Logout"/>
             </form>
             <p>Logged user: <span sec:authentication="name">Bob</span></p>
+            <p>Logged user: <span sec:authentication="principal.attributes['username']">Bob</span></p>
             <div>Roles:</div>
             <div th:each="role: ${#authentication.authorities}">
                 <div th:text="${role}"></div>
