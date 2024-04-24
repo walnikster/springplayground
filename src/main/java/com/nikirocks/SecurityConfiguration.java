@@ -1,5 +1,6 @@
 package com.nikirocks;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,6 +29,8 @@ public class SecurityConfiguration {
 
     @Value("${spring.security.oauth2.client.registration.cognito.client-id}")
     private String clientId;
+    @Autowired
+    private CustomSuccessLoginHandler customSuccessLoginHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,11 +45,14 @@ public class SecurityConfiguration {
                         .requestMatchers("/secured").authenticated()
                         .anyRequest()
                         .authenticated())
-                .oauth2Login((oath2Login) -> oath2Login.userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userAuthoritiesMapper(userAuthoritiesMapper())))
+                .oauth2Login((oath2Login) -> oath2Login.successHandler(customSuccessLoginHandler).userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userAuthoritiesMapper(userAuthoritiesMapper())))
                 .logout(x -> x.logoutSuccessHandler(
                         new CustomLogoutHandler(logoutUrl, logoutRedirectUrl, clientId)));
+        
         return http.build();
     }
+
+
 
     @Bean
     public GrantedAuthoritiesMapper userAuthoritiesMapper() {
