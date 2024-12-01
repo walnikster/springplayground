@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainController {
 
-    @Autowired
     private UserDao userDao;
-    @Autowired
     private Menu menu;
+
+    @Autowired
+    public MainController(UserDao userDao, Menu menu) {
+        this.userDao = userDao;
+        this.menu = menu;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {

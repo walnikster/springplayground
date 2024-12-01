@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    @Value("${aws.cognito.logoutUrl}")
-    private String logoutUrl;
 
     @Value("${aws.cognito.logout.success.redirectUrl}")
     private String logoutRedirectUrl;
@@ -41,13 +39,12 @@ public class SecurityConfiguration {
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
-                        .requestMatchers("/monitoring").hasRole("admins")
+                        .requestMatchers("/monitoring").hasRole("user")
                         .requestMatchers("/secured").authenticated()
                         .anyRequest()
                         .authenticated())
                 .oauth2Login((oath2Login) -> oath2Login.successHandler(customSuccessLoginHandler).userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userAuthoritiesMapper(userAuthoritiesMapper())))
-                .logout(x -> x.logoutSuccessHandler(
-                        new CustomLogoutHandler(logoutUrl, logoutRedirectUrl, clientId)));
+                .logout(Customizer.withDefaults());
         
         return http.build();
     }

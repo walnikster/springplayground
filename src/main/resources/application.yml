@@ -10,7 +10,7 @@ spring:
     resources:
       cache:
         cachecontrol:
-          max-age: 8h
+          max-age: 3h
       chain:
         enabled: true
         strategy:
@@ -24,8 +24,9 @@ spring:
           cognito:
             client-id: ${client-id}
             client-secret: ${client-secret}
-            scope: openid,email,profile
-
+            scope: openid
+            redirect-uri: http://localhost:8080/login/oauth2/code/cognito
+            clientName: springnogito
         provider:
           cognito:
             issuer-uri: ${issuer-url}

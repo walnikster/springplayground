@@ -28,7 +28,7 @@ public class CustomLogoutHandler extends SimpleUrlLogoutSuccessHandler {
             return UriComponentsBuilder
                     .fromUri(URI.create(logoutUrl))
                     .queryParam("client_id", clientId)
-                    .queryParam("logout_uri", logoutRedirectUrl)
+                    //.queryParam("logout_uri", logoutRedirectUrl)
                     .encode(StandardCharsets.UTF_8)
                     .build()
                     .toUriString();
