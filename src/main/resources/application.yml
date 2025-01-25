@@ -36,3 +36,5 @@ aws:
     logout:
       success:
         redirectUrl: ${logout-redirect-url}
+javamelody:
+  enabled: true
