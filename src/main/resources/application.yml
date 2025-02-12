@@ -33,8 +33,10 @@ spring:
 aws:
   cognito:
     logoutUrl: ${logoutUrl}
+
     logout:
       success:
         redirectUrl: ${logout-redirect-url}
+
 javamelody:
   enabled: true

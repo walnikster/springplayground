@@ -1,5 +1,7 @@
 package com.nikirocks;
 
+import com.nikirocks.user.UserDao;
+import com.nikirocks.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,13 +27,24 @@ public class SecurityConfiguration {
     @Value("${aws.cognito.logout.success.redirectUrl}")
     private String logoutRedirectUrl;
 
+    @Value("${aws.cognito.logoutUrl}")
+    private String logoutUrl;
+
     @Value("${spring.security.oauth2.client.registration.cognito.client-id}")
     private String clientId;
     @Autowired
     private CustomSuccessLoginHandler customSuccessLoginHandler;
+    @Autowired
+    private UserService userService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        CustomLogoutHandler cognitoLogoutHandler = new CustomLogoutHandler();
+        cognitoLogoutHandler.setUserService(userService);
+        cognitoLogoutHandler.setLogoutUrl(logoutUrl);
+        cognitoLogoutHandler.setLogoutRedirectUrl(logoutRedirectUrl);
+        cognitoLogoutHandler.setUserPoolClientId(clientId);
+
         http.csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/").permitAll()
@@ -44,12 +57,10 @@ public class SecurityConfiguration {
                         .anyRequest()
                         .authenticated())
                 .oauth2Login((oath2Login) -> oath2Login.successHandler(customSuccessLoginHandler).userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userAuthoritiesMapper(userAuthoritiesMapper())))
-                .logout(Customizer.withDefaults());
+                .logout(logout -> logout.logoutSuccessHandler(cognitoLogoutHandler));
         
         return http.build();
     }
-
-
 
     @Bean
     public GrantedAuthoritiesMapper userAuthoritiesMapper() {
