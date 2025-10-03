@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Service
 public class CustomSuccessLoginHandler extends SavedRequestAwareAuthenticationSuccessHandler {
@@ -30,7 +31,7 @@ public class CustomSuccessLoginHandler extends SavedRequestAwareAuthenticationSu
         DefaultOidcUser auth = (DefaultOidcUser) authentication.getPrincipal();
         UserEntity user = new UserEntity();
         user.setUsername(auth.getAttributes().get("username").toString());
-        user.setUserId(authentication.getName());
+        user.setUserId(UUID.randomUUID().toString());
         userDao.save(user);
         super.onAuthenticationSuccess(request, response, authentication);
     }
