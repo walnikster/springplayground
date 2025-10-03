@@ -1,0 +1,19 @@
+client-id: 1im0fqfjamb1oci0cubrh8iqne
+client-secret: skdo1mstlh8d3tgvpg88jbp1ea90q3vfg299nruh47lna1de40c
+issuer-url: https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_gX0kefoCZ
+logoutUrl: https://authpoolnik.auth.eu-central-1.amazoncognito.com/logout
+logout-redirect-url: http://localhost:8080/
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/niki
+    driverClassName: org.postgresql.Driver
+    username: niki
+    password: niki123
+  jpa:
+    properties:
+      javax.persistence:
+        schema-generation:
+          create-source: metadata
+          scripts:
+            action: create
+            create-target: create.sql

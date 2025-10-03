@@ -5,7 +5,8 @@ spring:
     username: sa
     password: password
   config:
-    import: env.yml
+    import: dev.yml
+
   web:
     resources:
       cache:
@@ -30,10 +31,10 @@ spring:
         provider:
           cognito:
             issuer-uri: ${issuer-url}
+            user-name-attribute: username
 aws:
   cognito:
     logoutUrl: ${logoutUrl}
-
     logout:
       success:
         redirectUrl: ${logout-redirect-url}

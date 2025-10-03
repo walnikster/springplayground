@@ -45,7 +45,7 @@
                 <input type="submit" class="btn btn-danger" value="Logout"/>
             </form>
             <p>Logged user id: <span sec:authentication="name">Bob</span></p>
-            <p>Logged user name: <span sec:authentication="principal.attributes['username']">Bob</span></p>
+
             <div>Roles:</div>
             <div th:each="role: ${#authentication.authorities}">
                 <div th:text="${role}"></div>
