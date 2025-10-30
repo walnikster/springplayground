@@ -22,15 +22,12 @@ public class PreAuthenticatedUserFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("PreAuthenticatedUserFilter");
         CustomUserDetails userDetails = new CustomUserDetails(
                 "preauthUser",
                 "{noop}",
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")),
                 "customValue"
         );
-
-
 
 
         PreAuthenticatedAuthenticationToken authentication = new PreAuthenticatedAuthenticationToken(userDetails, "", userDetails.getAuthorities());
